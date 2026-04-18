@@ -79,7 +79,10 @@ void Backend::processFile(const QString &path)
         const QString &line = lines[i];
 
         for (const QString &funcName : funcs) {
-            if (!line.contains(funcName + "(")) continue;
+
+            // Используем регулярку для точного поиска имени функции
+            QRegularExpression re("\\b" + funcName + "\\s*\\(");
+            if (!line.contains(re)) continue;
 
             QVariantList beforeLines;
             QVariantList afterLines;
@@ -87,7 +90,6 @@ void Backend::processFile(const QString &path)
             const int start = qMax(0, i - contextRadius);
             const int end = qMin(lines.size() - 1, i + contextRadius);
 
-            // Теперь сохраняем и текст, и номер строки
             for (int j = start; j < i; ++j) {
                 QVariantMap obj;
                 obj["text"] = lines[j];
@@ -107,6 +109,7 @@ void Backend::processFile(const QString &path)
             buildSuggestion(line, funcName, fixedLine, warning, recommendation);
 
             QVariantMap finding;
+            finding["fullPath"] = path;
             finding["fileName"] = QFileInfo(path).fileName();
             finding["lineNumber"] = i + 1;
             finding["functionName"] = funcName;
@@ -116,7 +119,6 @@ void Backend::processFile(const QString &path)
             finding["fixedLine"] = fixedLine;
             finding["warning"] = warning;
             finding["recommendation"] = recommendation;
-            finding["fullPath"] = path; // <-- Добавь это
 
             m_findings.append(finding);
         }
@@ -133,45 +135,58 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
         else break;
     }
 
-    // Регулярка выцепляет всё, что между первой ( и последней )
+    // Регулярка для захвата содержимого скобок
     QRegularExpression re(funcName + "\\s*\\((.*)\\)");
     QRegularExpressionMatch match = re.match(line);
     QString args = match.hasMatch() ? match.captured(1).trimmed() : "";
 
-    if (funcName == "gets") {
-        warningText = tr("Функция gets небезопасна: возможно переполнение буфера.");
-        recommendationText = tr("Используйте std::string и std::getline.");
+    // ПРОВЕРКА: Если в аргументах есть типы данных (char*, int и т.д.),
+    // то это объявление функции, а не вызов. Пропускаем.
+    if (args.contains(QRegularExpression("\\b(char|int|void|unsigned|const)\\b"))) {
+        fixedLine = "";
+        return;
+    }
 
-        // Убираем _str, оставляем чистое имя
-        QString varName = args.isEmpty() ? "str" : args;
-        fixedLine = indent + QString("std::string %1; std::getline(std::cin, %1);").arg(varName);
+    if (funcName == "gets") {
+        warningText = tr("gets небезопасна: возможно переполнение буфера.");
+        recommendationText = tr("Используйте fgets для ограничения чтения по размеру буфера.");
+
+        // Если аргументы пустые или странные, не предлагаем авто-фикс
+        if (args.isEmpty() || args.contains('*')) {
+            fixedLine = "";
+        } else {
+            fixedLine = indent + QString("fgets(%1, sizeof(%1), stdin);").arg(args);
+        }
 
     } else if (funcName == "strcpy") {
-        warningText = tr("Функция strcpy небезопасна: нет контроля границ.");
-        recommendationText = tr("Используйте std::string или оператор присваивания.");
+        warningText = tr("strcpy небезопасна: нет контроля границ.");
+        recommendationText = tr("Используйте strncpy с указанием размера буфера.");
 
-        // Используем поиск ПЕРВОЙ запятой, чтобы не ломать строки с запятыми внутри
         int firstComma = args.indexOf(',');
         if (firstComma != -1) {
             QString dest = args.left(firstComma).trimmed();
             QString src = args.mid(firstComma + 1).trimmed();
-            fixedLine = indent + QString("%1 = %2;").arg(dest, src);
-        } else {
-            fixedLine = indent + "dest = src;";
+            // Проверяем, что dest это имя переменной, а не указатель с типом
+            if (!dest.contains('*') && !dest.contains(' ')) {
+                fixedLine = indent + QString("strncpy(%1, %2, sizeof(%1) - 1); %1[sizeof(%1) - 1] = '\\0';").arg(dest, src);
+            } else {
+                fixedLine = "";
+            }
         }
 
     } else if (funcName == "sprintf") {
-        warningText = tr("Функция sprintf небезопасна: риск переполнения буфера.");
-        recommendationText = tr("Используйте std::format (C++20).");
+        warningText = tr("sprintf небезопасна: риск переполнения буфера.");
+        recommendationText = tr("Используйте snprintf для контроля размера.");
 
         int firstComma = args.indexOf(',');
         if (firstComma != -1) {
             QString buffer = args.left(firstComma).trimmed();
             QString rest = args.mid(firstComma + 1).trimmed();
-            // rest теперь содержит и строку формата, и все аргументы целиком
-            fixedLine = indent + QString("std::string %1_s = std::format(%2);").arg(buffer, rest);
-        } else {
-            fixedLine = indent + "std::string s = std::format(...);";
+            if (!buffer.contains('*') && !buffer.contains(' ')) {
+                fixedLine = indent + QString("snprintf(%1, sizeof(%1), %2);").arg(buffer, rest);
+            } else {
+                fixedLine = "";
+            }
         }
     }
 }
@@ -180,16 +195,13 @@ void Backend::applyAllFixes()
 {
     if (m_findings.isEmpty()) return;
 
-    // Группируем исправления по файлам (Путь -> Список пар {строка, замена})
+    // 1. Собираем все правки и группируем по файлам
     QMap<QString, QList<QPair<int, QString>>> changesByFile;
-
-    // Нам нужно знать полные пути. Добавим их в m_findings при сканировании.
-    // (Ниже в processFile я обновлю сохранение пути)
 
     for (const QVariant &v : m_findings) {
         QVariantMap finding = v.toMap();
         QString fullPath = finding["fullPath"].toString();
-        int lineIdx = finding["lineNumber"].toInt() - 1; // Индекс в массиве (с 0)
+        int lineIdx = finding["lineNumber"].toInt() - 1;
         QString fixed = finding["fixedLine"].toString();
 
         if (!fixed.isEmpty()) {
@@ -197,33 +209,47 @@ void Backend::applyAllFixes()
         }
     }
 
-    // Применяем изменения
+    // 2. Применяем правки для каждого файла
     for (auto it = changesByFile.begin(); it != changesByFile.end(); ++it) {
         QString path = it.key();
         QFile file(path);
-        if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) continue;
+
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) continue;
 
         QStringList lines;
         QTextStream in(&file);
         while (!in.atEnd()) lines << in.readLine();
+        file.close();
 
-        // Заменяем строки
-        for (const auto &change : it.value()) {
-            if (change.first < lines.size()) {
+        // Сортируем правки по номеру строки В ОБРАТНОМ ПОРЯДКЕ (от большего к меньшему)
+        // Это критично, чтобы не поплыли индексы, если мы будем добавлять/удалять строки
+        auto &fileChanges = it.value();
+        std::sort(fileChanges.begin(), fileChanges.end(), [](const QPair<int, QString> &a, const QPair<int, QString> &b) {
+            return a.first > b.first;
+        });
+
+        for (const auto &change : fileChanges) {
+            if (change.first >= 0 && change.first < lines.size()) {
                 lines[change.first] = change.second;
             }
         }
 
-        // Перезаписываем файл
-        file.resize(0);
-        QTextStream out(&file);
-        for (const QString &l : lines) out << l << "\n";
-        file.close();
+        // Записываем обновленный контент обратно
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+            QTextStream out(&file);
+            for (int i = 0; i < lines.size(); ++i) {
+                out << lines[i] << (i == lines.size() - 1 ? "" : "\n");
+            }
+            file.close();
+        }
     }
 
-    // Перезапускаем сканирование, чтобы обновить UI (показываем, что всё чисто)
-    // Для этого нужно сохранить список путей.
-    // В реальном приложении лучше просто очистить список m_findings.
-    clear();
+    // 3. Очищаем результаты и уведомляем интерфейс
+    qDebug() << "Все исправления применены успешно!";
+    m_findings.clear();
     emit findingsChanged();
+
+    // Сбрасываем флаг сканирования, чтобы UI предложил просканировать заново
+    m_hasScanRun = false;
+    emit hasScanRunChanged();
 }
