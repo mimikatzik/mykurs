@@ -90,7 +90,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 80,
+                            "line": 81,
                             "message": ""
                         },
                         {
@@ -98,7 +98,7 @@
                             "column": 47,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 85,
+                            "line": 87,
                             "message": ""
                         },
                         {
@@ -106,7 +106,7 @@
                             "column": 43,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 89,
+                            "line": 96,
                             "message": "Cannot access value for name name"
                         },
                         {
@@ -114,7 +114,15 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "elide",
-                            "line": 91,
+                            "line": 98,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 55,
+                            "durationMicroseconds": 0,
+                            "functionName": "alignment",
+                            "line": 95,
                             "message": ""
                         },
                         {
@@ -122,15 +130,23 @@
                             "column": 48,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 95,
+                            "line": 105,
                             "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 55,
+                            "durationMicroseconds": 0,
+                            "functionName": "alignment",
+                            "line": 104,
+                            "message": ""
                         },
                         {
                             "codegenResult": 2,
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 109,
+                            "line": 119,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -138,7 +154,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 114,
+                            "line": 124,
                             "message": "Cannot access value for name addFilesButton"
                         },
                         {
@@ -146,7 +162,7 @@
                             "column": 59,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 119,
+                            "line": 129,
                             "message": "Cannot access value for name addFilesButton"
                         },
                         {
@@ -154,7 +170,7 @@
                             "column": 74,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalAlignment",
-                            "line": 123,
+                            "line": 133,
                             "message": ""
                         },
                         {
@@ -162,7 +178,7 @@
                             "column": 72,
                             "durationMicroseconds": 0,
                             "functionName": "verticalAlignment",
-                            "line": 124,
+                            "line": 134,
                             "message": ""
                         },
                         {
@@ -170,7 +186,7 @@
                             "column": 66,
                             "durationMicroseconds": 0,
                             "functionName": "family",
-                            "line": 122,
+                            "line": 132,
                             "message": "Cannot access value for name window"
                         },
                         {
@@ -178,7 +194,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 131,
+                            "line": 141,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -186,7 +202,7 @@
                             "column": 59,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 146,
+                            "line": 156,
                             "message": "Cannot access value for name clearButton"
                         },
                         {
@@ -194,7 +210,7 @@
                             "column": 74,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalAlignment",
-                            "line": 150,
+                            "line": 160,
                             "message": ""
                         },
                         {
@@ -202,7 +218,7 @@
                             "column": 72,
                             "durationMicroseconds": 0,
                             "functionName": "verticalAlignment",
-                            "line": 151,
+                            "line": 161,
                             "message": ""
                         },
                         {
@@ -210,7 +226,7 @@
                             "column": 66,
                             "durationMicroseconds": 0,
                             "functionName": "family",
-                            "line": 149,
+                            "line": 159,
                             "message": "Cannot access value for name window"
                         },
                         {
@@ -218,7 +234,7 @@
                             "column": 54,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 160,
+                            "line": 170,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -226,7 +242,7 @@
                             "column": 56,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 161,
+                            "line": 171,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -234,7 +250,7 @@
                             "column": 56,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 171,
+                            "line": 181,
                             "message": "Cannot access value for name scanButton"
                         },
                         {
@@ -242,7 +258,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 176,
+                            "line": 186,
                             "message": "Cannot access value for name scanButton"
                         },
                         {
@@ -250,7 +266,7 @@
                             "column": 56,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 177,
+                            "line": 187,
                             "message": "Cannot access value for name scanButton"
                         },
                         {
@@ -258,7 +274,7 @@
                             "column": 70,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalAlignment",
-                            "line": 181,
+                            "line": 191,
                             "message": ""
                         },
                         {
@@ -266,7 +282,7 @@
                             "column": 68,
                             "durationMicroseconds": 0,
                             "functionName": "verticalAlignment",
-                            "line": 182,
+                            "line": 192,
                             "message": ""
                         },
                         {
@@ -274,7 +290,7 @@
                             "column": 62,
                             "durationMicroseconds": 0,
                             "functionName": "family",
-                            "line": 180,
+                            "line": 190,
                             "message": "Cannot access value for name window"
                         },
                         {
@@ -282,7 +298,55 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 197,
+                            "line": 207,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 227,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 40,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 229,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 40,
+                            "durationMicroseconds": 0,
+                            "functionName": "color",
+                            "line": 234,
+                            "message": "Cannot access value for name applyAllBtn"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 239,
+                            "message": "Cannot access value for name applyAllBtn"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 54,
+                            "durationMicroseconds": 0,
+                            "functionName": "horizontalAlignment",
+                            "line": 243,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 52,
+                            "durationMicroseconds": 0,
+                            "functionName": "verticalAlignment",
+                            "line": 244,
                             "message": ""
                         },
                         {
@@ -290,7 +354,7 @@
                             "column": 34,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 209,
+                            "line": 251,
                             "message": "Cannot access value for name backend"
                         },
                         {
@@ -298,7 +362,7 @@
                             "column": 34,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 215,
+                            "line": 257,
                             "message": "Cannot access value for name backend"
                         },
                         {
@@ -306,7 +370,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 228,
+                            "line": 270,
                             "message": "Cannot retrieve a non-object type by ID: findingsScrollView"
                         },
                         {
@@ -314,7 +378,7 @@
                             "column": 40,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 233,
+                            "line": 275,
                             "message": "Cannot access value for name findingsList"
                         },
                         {
@@ -322,7 +386,7 @@
                             "column": 44,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 236,
+                            "line": 278,
                             "message": "Cannot access value for name findingsColumn"
                         },
                         {
@@ -330,7 +394,7 @@
                             "column": 53,
                             "durationMicroseconds": 0,
                             "functionName": "implicitHeight",
-                            "line": 240,
+                            "line": 282,
                             "message": ""
                         },
                         {
@@ -338,7 +402,7 @@
                             "column": 63,
                             "durationMicroseconds": 0,
                             "functionName": "findingData",
-                            "line": 241,
+                            "line": 283,
                             "message": "Cannot access value for name modelData"
                         },
                         {
@@ -346,7 +410,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 245,
+                            "line": 287,
                             "message": ""
                         },
                         {
@@ -354,7 +418,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 253,
+                            "line": 295,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -362,7 +426,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 264,
+                            "line": 306,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -370,7 +434,7 @@
                             "column": 58,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 265,
+                            "line": 307,
                             "message": "Could not find property \"visible\"."
                         },
                         {
@@ -378,7 +442,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 267,
+                            "line": 309,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -386,7 +450,7 @@
                             "column": 66,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 277,
+                            "line": 319,
                             "message": "Cannot retrieve a non-object type by ID: copyBtn"
                         },
                         {
@@ -394,7 +458,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 283,
+                            "line": 325,
                             "message": "Cannot access value for name copyBtn"
                         },
                         {
@@ -402,7 +466,7 @@
                             "column": 67,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 285,
+                            "line": 327,
                             "message": "Cannot access value for name copyBtn"
                         },
                         {
@@ -410,7 +474,7 @@
                             "column": 59,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 289,
+                            "line": 331,
                             "message": "Cannot access value for name copyBtn"
                         },
                         {
@@ -418,7 +482,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 290,
+                            "line": 332,
                             "message": "Cannot access value for name copyBtn"
                         },
                         {
@@ -426,7 +490,7 @@
                             "column": 74,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalAlignment",
-                            "line": 293,
+                            "line": 335,
                             "message": ""
                         },
                         {
@@ -434,7 +498,7 @@
                             "column": 72,
                             "durationMicroseconds": 0,
                             "functionName": "verticalAlignment",
-                            "line": 294,
+                            "line": 336,
                             "message": ""
                         },
                         {
@@ -442,7 +506,7 @@
                             "column": 64,
                             "durationMicroseconds": 0,
                             "functionName": "bold",
-                            "line": 292,
+                            "line": 334,
                             "message": "Cannot access value for name copyBtn"
                         },
                         {
@@ -450,7 +514,7 @@
                             "column": 61,
                             "durationMicroseconds": 0,
                             "functionName": "implicitHeight",
-                            "line": 302,
+                            "line": 344,
                             "message": ""
                         },
                         {
@@ -458,7 +522,7 @@
                             "column": 63,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 308,
+                            "line": 350,
                             "message": ""
                         },
                         {
@@ -466,7 +530,7 @@
                             "column": 64,
                             "durationMicroseconds": 0,
                             "functionName": "width",
-                            "line": 316,
+                            "line": 358,
                             "message": "Cannot access value for name codeLinesColumn"
                         },
                         {
@@ -474,7 +538,7 @@
                             "column": 67,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 323,
+                            "line": 365,
                             "message": "Cannot access value for name num"
                         },
                         {
@@ -482,7 +546,7 @@
                             "column": 82,
                             "durationMicroseconds": 0,
                             "functionName": "horizontalAlignment",
-                            "line": 327,
+                            "line": 369,
                             "message": ""
                         },
                         {
@@ -490,7 +554,7 @@
                             "column": 67,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 330,
+                            "line": 372,
                             "message": "Cannot access value for name txt"
                         },
                         {
@@ -498,7 +562,7 @@
                             "column": 68,
                             "durationMicroseconds": 0,
                             "functionName": "color",
-                            "line": 331,
+                            "line": 373,
                             "message": "Cannot access value for name clr"
                         },
                         {
@@ -506,7 +570,7 @@
                             "column": 73,
                             "durationMicroseconds": 0,
                             "functionName": "textFormat",
-                            "line": 335,
+                            "line": 377,
                             "message": ""
                         },
                         {
@@ -514,7 +578,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 342,
+                            "line": 384,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -522,7 +586,7 @@
                             "column": 74,
                             "durationMicroseconds": 0,
                             "functionName": "sourceComponent",
-                            "line": 344,
+                            "line": 386,
                             "message": "Cannot access value for name codeLineRow"
                         },
                         {
@@ -530,7 +594,7 @@
                             "column": 67,
                             "durationMicroseconds": 0,
                             "functionName": "onLoaded",
-                            "line": 345,
+                            "line": 387,
                             "message": "Cannot access value for name modelData"
                         },
                         {
@@ -538,7 +602,7 @@
                             "column": 70,
                             "durationMicroseconds": 0,
                             "functionName": "sourceComponent",
-                            "line": 351,
+                            "line": 393,
                             "message": ""
                         },
                         {
@@ -546,7 +610,7 @@
                             "column": 63,
                             "durationMicroseconds": 0,
                             "functionName": "onLoaded",
-                            "line": 352,
+                            "line": 394,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -554,7 +618,7 @@
                             "column": 70,
                             "durationMicroseconds": 0,
                             "functionName": "sourceComponent",
-                            "line": 361,
+                            "line": 403,
                             "message": ""
                         },
                         {
@@ -562,7 +626,7 @@
                             "column": 62,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 362,
+                            "line": 404,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -570,7 +634,7 @@
                             "column": 63,
                             "durationMicroseconds": 0,
                             "functionName": "onLoaded",
-                            "line": 363,
+                            "line": 405,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -578,7 +642,7 @@
                             "column": 60,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 372,
+                            "line": 414,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -586,7 +650,7 @@
                             "column": 74,
                             "durationMicroseconds": 0,
                             "functionName": "sourceComponent",
-                            "line": 374,
+                            "line": 416,
                             "message": "Cannot access value for name codeLineRow"
                         },
                         {
@@ -594,7 +658,7 @@
                             "column": 67,
                             "durationMicroseconds": 0,
                             "functionName": "onLoaded",
-                            "line": 375,
+                            "line": 417,
                             "message": "Cannot access value for name modelData"
                         },
                         {
@@ -602,7 +666,7 @@
                             "column": 51,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 384,
+                            "line": 426,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -610,7 +674,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "wrapMode",
-                            "line": 387,
+                            "line": 429,
                             "message": ""
                         },
                         {
@@ -618,7 +682,7 @@
                             "column": 51,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 392,
+                            "line": 434,
                             "message": "Cannot access value for name findingData"
                         },
                         {
@@ -626,7 +690,7 @@
                             "column": 55,
                             "durationMicroseconds": 0,
                             "functionName": "wrapMode",
-                            "line": 395,
+                            "line": 437,
                             "message": ""
                         }
                     ],

@@ -36,6 +36,13 @@
                     "lineNumber": 17,
                     "name": "copyToClipboard",
                     "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 5,
+                    "lineNumber": 18,
+                    "name": "applyAllFixes",
+                    "returnType": "void"
                 }
             ],
             "object": true,
@@ -80,14 +87,14 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 23,
+                    "lineNumber": 24,
                     "name": "findingsChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 1,
-                    "lineNumber": 24,
+                    "lineNumber": 25,
                     "name": "hasScanRunChanged",
                     "returnType": "void"
                 }

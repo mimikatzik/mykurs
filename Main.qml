@@ -76,22 +76,32 @@ ApplicationWindow {
                         clip: true
                         model: filesModel
                         spacing: 4
+                        // --- Внутри ListView (Файлы для анализа) --- [cite: 8, 9]
                         delegate: Rectangle {
                             width: ListView.view.width
-                            height: 32
+                            height: 40 // Чуть увеличим для удобства [cite: 10]
                             radius: 6
                             color: "#202020"
+
                             RowLayout {
                                 anchors.fill: parent
-                                anchors.margins: 8
+                                anchors.leftMargin: 12
+                                anchors.rightMargin: 8
+                                spacing: 8
+                                // alignment: Qt.AlignVCenter // RowLayout центрирует по вертикали по умолчанию [cite: 12]
+
                                 Text {
                                     Layout.fillWidth: true
+                                    Layout.alignment: Qt.AlignVCenter // Явное центрирование текста [cite: 13]
                                     text: name
                                     color: "#f0f0f0"
                                     elide: Text.ElideMiddle
+                                    font.pixelSize: 13
                                 }
+
                                 ToolButton {
                                     text: "×"
+                                    Layout.alignment: Qt.AlignVCenter // Центрирование кнопки [cite: 15]
                                     onClicked: filesModel.remove(index)
                                 }
                             }
@@ -198,10 +208,42 @@ ApplicationWindow {
                     anchors.margins: 16
                     spacing: 12
 
-                    Text {
-                        text: qsTr("Результаты анализа")
-                        color: "white"
-                        font.pixelSize: 18
+                    // Верхняя панель: Заголовок + Кнопка "Исправить всё"
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+
+                        Text {
+                            text: qsTr("Результаты анализа")
+                            color: "white"
+                            font.pixelSize: 18
+                            Layout.fillWidth: true // Занимает всё свободное место, толкая кнопку вправо
+                        }
+
+                        Button {
+                            id: applyAllBtn
+                            text: qsTr("Исправить всё")
+                            // Кнопка видна только если есть результаты
+                            visible: findingsList.length > 0
+
+                            onClicked: backend.applyAllFixes()
+
+                            background: Rectangle {
+                                implicitWidth: 120
+                                implicitHeight: 32
+                                color: applyAllBtn.down ? "#15803d" : (applyAllBtn.hovered ? "#16a34a" : "#22c55e")
+                                radius: 6
+                            }
+
+                            contentItem: Text {
+                                text: applyAllBtn.text
+                                color: "white"
+                                font.pixelSize: 12
+                                font.bold: true
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                        }
                     }
 
                     // Сообщения о статусе

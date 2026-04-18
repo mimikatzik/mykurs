@@ -15,6 +15,7 @@ public:
     Q_INVOKABLE void scanFiles(const QVariantList &paths);
     Q_INVOKABLE void clear();
     Q_INVOKABLE void copyToClipboard(const QString &text); // Добавили метод
+    Q_INVOKABLE void applyAllFixes();
 
     QVariantList findings() const;
     bool hasScanRun() const;

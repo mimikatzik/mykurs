@@ -116,6 +116,7 @@ void Backend::processFile(const QString &path)
             finding["fixedLine"] = fixedLine;
             finding["warning"] = warning;
             finding["recommendation"] = recommendation;
+            finding["fullPath"] = path; // <-- Добавь это
 
             m_findings.append(finding);
         }
@@ -173,4 +174,56 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
             fixedLine = indent + "std::string s = std::format(...);";
         }
     }
+}
+
+void Backend::applyAllFixes()
+{
+    if (m_findings.isEmpty()) return;
+
+    // Группируем исправления по файлам (Путь -> Список пар {строка, замена})
+    QMap<QString, QList<QPair<int, QString>>> changesByFile;
+
+    // Нам нужно знать полные пути. Добавим их в m_findings при сканировании.
+    // (Ниже в processFile я обновлю сохранение пути)
+
+    for (const QVariant &v : m_findings) {
+        QVariantMap finding = v.toMap();
+        QString fullPath = finding["fullPath"].toString();
+        int lineIdx = finding["lineNumber"].toInt() - 1; // Индекс в массиве (с 0)
+        QString fixed = finding["fixedLine"].toString();
+
+        if (!fixed.isEmpty()) {
+            changesByFile[fullPath].append({lineIdx, fixed});
+        }
+    }
+
+    // Применяем изменения
+    for (auto it = changesByFile.begin(); it != changesByFile.end(); ++it) {
+        QString path = it.key();
+        QFile file(path);
+        if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) continue;
+
+        QStringList lines;
+        QTextStream in(&file);
+        while (!in.atEnd()) lines << in.readLine();
+
+        // Заменяем строки
+        for (const auto &change : it.value()) {
+            if (change.first < lines.size()) {
+                lines[change.first] = change.second;
+            }
+        }
+
+        // Перезаписываем файл
+        file.resize(0);
+        QTextStream out(&file);
+        for (const QString &l : lines) out << l << "\n";
+        file.close();
+    }
+
+    // Перезапускаем сканирование, чтобы обновить UI (показываем, что всё чисто)
+    // Для этого нужно сохранить список путей.
+    // В реальном приложении лучше просто очистить список m_findings.
+    clear();
+    emit findingsChanged();
 }
