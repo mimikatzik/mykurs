@@ -140,53 +140,56 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
     QRegularExpressionMatch match = re.match(line);
     QString args = match.hasMatch() ? match.captured(1).trimmed() : "";
 
-    // ПРОВЕРКА: Если в аргументах есть типы данных (char*, int и т.д.),
-    // то это объявление функции, а не вызов. Пропускаем.
+    // ПРОВЕРКА: Если это объявление функции (есть типы данных), пропускаем
     if (args.contains(QRegularExpression("\\b(char|int|void|unsigned|const)\\b"))) {
         fixedLine = "";
         return;
     }
 
     if (funcName == "gets") {
-        warningText = tr("gets небезопасна: возможно переполнение буфера.");
-        recommendationText = tr("Используйте fgets для ограничения чтения по размеру буфера.");
+        warningText = tr("Функция gets() небезопасна: невозможно контролировать размер буфера.");
+        recommendationText = tr("Рекомендуется использовать std::getline для безопасного чтения строк.");
 
-        // Если аргументы пустые или странные, не предлагаем авто-фикс
         if (args.isEmpty() || args.contains('*')) {
             fixedLine = "";
         } else {
-            fixedLine = indent + QString("fgets(%1, sizeof(%1), stdin);").arg(args);
+            fixedLine = indent + QString("std::getline(std::cin, %1);").arg(args);
         }
 
     } else if (funcName == "strcpy") {
-        warningText = tr("strcpy небезопасна: нет контроля границ.");
-        recommendationText = tr("Используйте strncpy с указанием размера буфера.");
+        warningText = tr("Функция strcpy() небезопасна: не проверяет границы приемника.");
+        recommendationText = tr("Рекомендуется использовать std::string или метод .assign().");
 
         int firstComma = args.indexOf(',');
         if (firstComma != -1) {
             QString dest = args.left(firstComma).trimmed();
             QString src = args.mid(firstComma + 1).trimmed();
-            // Проверяем, что dest это имя переменной, а не указатель с типом
+
             if (!dest.contains('*') && !dest.contains(' ')) {
-                fixedLine = indent + QString("strncpy(%1, %2, sizeof(%1) - 1); %1[sizeof(%1) - 1] = '\\0';").arg(dest, src);
+                fixedLine = indent + QString("%1 = %2;").arg(dest, src);
             } else {
                 fixedLine = "";
             }
+        } else {
+            fixedLine = "";
         }
 
     } else if (funcName == "sprintf") {
-        warningText = tr("sprintf небезопасна: риск переполнения буфера.");
-        recommendationText = tr("Используйте snprintf для контроля размера.");
+        warningText = tr("Функция sprintf() небезопасна: риск переполнения буфера.");
+        recommendationText = tr("Рекомендуется использовать fmt::format для безопасного форматирования.");
 
         int firstComma = args.indexOf(',');
         if (firstComma != -1) {
             QString buffer = args.left(firstComma).trimmed();
             QString rest = args.mid(firstComma + 1).trimmed();
+
             if (!buffer.contains('*') && !buffer.contains(' ')) {
-                fixedLine = indent + QString("snprintf(%1, sizeof(%1), %2);").arg(buffer, rest);
+                fixedLine = indent + QString("%1 = fmt::format(%2);").arg(buffer, rest);
             } else {
                 fixedLine = "";
             }
+        } else {
+            fixedLine = "";
         }
     }
 }
