@@ -5,6 +5,8 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include <QUrl>
+#include <QGuiApplication>
+#include <QClipboard>
 
 Backend::Backend(QObject *parent)
     : QObject(parent)
@@ -33,6 +35,11 @@ bool Backend::hasScanRun() const
     return m_hasScanRun;
 }
 
+void Backend::copyToClipboard(const QString &text)
+{
+    QGuiApplication::clipboard()->setText(text);
+}
+
 void Backend::scanFiles(const QVariantList &paths)
 {
     qDebug() << "[Backend] scanFiles called with" << paths.size() << "paths";
@@ -45,13 +52,9 @@ void Backend::scanFiles(const QVariantList &paths)
         if (raw.startsWith("file:"))
             path = QUrl(raw).toLocalFile();
 
-        qDebug() << "[Backend] processing path" << path;
-        processFile(path);  // не вызываем findingsChanged здесь
+        processFile(path);
     }
-
-    qDebug() << "[Backend] total findings after scan:" << m_findings.size();
-
-    emit findingsChanged();  // один вызов после всех файлов
+    emit findingsChanged();
 
     if (!m_hasScanRun) {
         m_hasScanRun = true;
@@ -63,47 +66,40 @@ void Backend::scanFiles(const QVariantList &paths)
 void Backend::processFile(const QString &path)
 {
     QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "[Backend] cannot open file" << path;
-        return;
-    }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
 
     QTextStream in(&file);
     QStringList lines;
-    while (!in.atEnd())
-        lines << in.readLine();
+    while (!in.atEnd()) lines << in.readLine();
 
-    const QStringList funcs { QStringLiteral("gets"), QStringLiteral("strcpy"), QStringLiteral("sprintf") };
+    const QStringList funcs { "gets", "strcpy", "sprintf" };
     const int contextRadius = 3;
 
     for (int i = 0; i < lines.size(); ++i) {
         const QString &line = lines[i];
 
         for (const QString &funcName : funcs) {
-            if (!line.contains(funcName + QLatin1Char('(')))
-                continue;
+            if (!line.contains(funcName + "(")) continue;
 
-            qDebug() << "[Backend] found" << funcName << "in" << path << "line" << (i + 1);
-
-            // Контекст вокруг найденной строки
-            QStringList beforeLinesList;
-            QStringList afterLinesList;
+            QVariantList beforeLines;
+            QVariantList afterLines;
 
             const int start = qMax(0, i - contextRadius);
             const int end = qMin(lines.size() - 1, i + contextRadius);
 
-            for (int j = start; j < i; ++j)
-                beforeLinesList << lines[j];
-            for (int j = i + 1; j <= end; ++j)
-                afterLinesList << lines[j];
-
-            // Конвертируем QStringList в QVariantList для QML
-            QVariantList beforeLines;
-            QVariantList afterLines;
-            for (const QString &str : beforeLinesList)
-                beforeLines << str;
-            for (const QString &str : afterLinesList)
-                afterLines << str;
+            // Теперь сохраняем и текст, и номер строки
+            for (int j = start; j < i; ++j) {
+                QVariantMap obj;
+                obj["text"] = lines[j];
+                obj["ln"] = j + 1;
+                beforeLines << obj;
+            }
+            for (int j = i + 1; j <= end; ++j) {
+                QVariantMap obj;
+                obj["text"] = lines[j];
+                obj["ln"] = j + 1;
+                afterLines << obj;
+            }
 
             QString fixedLine;
             QString warning;
@@ -124,39 +120,30 @@ void Backend::processFile(const QString &path)
             m_findings.append(finding);
         }
     }
-    // Не эмитим здесь — эмитим только после обработки всех файлов в scanFiles()
 }
 
-void Backend::buildSuggestion(const QString &line,
-                              const QString &funcName,
-                              QString &fixedLine,
-                              QString &warningText,
+void Backend::buildSuggestion(const QString &line, const QString &funcName,
+                              QString &fixedLine, QString &warningText,
                               QString &recommendationText) const
 {
-    Q_UNUSED(line);
+    // Извлекаем отступ из оригинальной строки
+    QString indent;
+    for (const QChar &c : line) {
+        if (c.isSpace()) indent += c;
+        else break;
+    }
 
     if (funcName == "gets") {
-        warningText = tr("Функция gets небезопасна: возможно переполнение буфера (нет контроля длины ввода).");
-        recommendationText = tr("Используйте std::string и std::getline(std::cin, ...) вместо сырого буфера.");
-        fixedLine = tr("std::string line; std::getline(std::cin, line);");
-        return;
+        warningText = tr("Функция gets небезопасна: возможно переполнение буфера.");
+        recommendationText = tr("Используйте std::string и std::getline.");
+        fixedLine = indent + "std::string line; std::getline(std::cin, line);";
+    } else if (funcName == "strcpy") {
+        warningText = tr("Функция strcpy небезопасна: нет контроля границ.");
+        recommendationText = tr("Используйте std::string или оператор присваивания.");
+        fixedLine = indent + "std::string dest = src;";
+    } else if (funcName == "sprintf") {
+        warningText = tr("Функция sprintf небезопасна: риск переполнения буфера.");
+        recommendationText = tr("Используйте fmt::format или std::format (C++20).");
+        fixedLine = indent + "std::string result = fmt::format(\"{} {}\", arg1, arg2);";
     }
-
-    if (funcName == "strcpy") {
-        warningText = tr("Функция strcpy небезопасна: не контролируется размер копируемых данных.");
-        recommendationText = tr("Используйте std::string и его методы (assign/оператор =) вместо прямого копирования в массив char.");
-        fixedLine = tr("std::string dest = src;    // вместо strcpy(dest, src);");
-        return;
-    }
-
-    if (funcName == "sprintf") {
-        warningText = tr("Функция sprintf небезопасна: возможна запись за пределами буфера форматируемой строки.");
-        recommendationText = tr("Используйте библиотеку fmt и fmt::format, возвращающую std::string, либо остальные безопасные аналоги.");
-        fixedLine = tr("std::string result = fmt::format(\"%s %d\", arg1, arg2);");
-        return;
-    }
-
-    warningText.clear();
-    recommendationText.clear();
-    fixedLine.clear();
 }

@@ -12,14 +12,13 @@ ApplicationWindow {
     color: "#101010"
 
     property alias filesModel: filesModel
-
     font.family: "Consolas"
 
     ListModel {
         id: filesModel
     }
 
-    // Реактивная привязка: QML автоматически обновит список при сигнале findingsChanged из C++
+    // Список результатов из C++
     property var findingsList: backend ? backend.findings : []
 
     function currentPaths() {
@@ -30,18 +29,18 @@ ApplicationWindow {
     }
 
     FileDialog {
-            id: fileDialog
-            title: qsTr("Выберите .cpp файлы для анализа")
-            nameFilters: [qsTr("C++ файлы (*.cpp)")]
-            fileMode: FileDialog.OpenFiles
-            onAccepted: {
-                for (var i = 0; i < selectedFiles.length; ++i) {
-                    var rawUrl = selectedFiles[i].toString()
-                    // Оставляем rawUrl как есть, C++ сам превратит его в нормальный путь
-                    filesModel.append({ path: rawUrl, name: rawUrl.split("/").pop() })
-                }
+        id: fileDialog
+        title: qsTr("Выберите .cpp файлы для анализа")
+        nameFilters: [qsTr("C++ файлы (*.cpp)")]
+        fileMode: FileDialog.OpenFiles
+        onAccepted: {
+            for (var i = 0; i < selectedFiles.length; ++i) {
+                var rawUrl = selectedFiles[i].toString()
+                filesModel.append({ path: rawUrl, name: rawUrl.split("/").pop() })
             }
         }
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "#101010"
@@ -51,9 +50,9 @@ ApplicationWindow {
             anchors.margins: 16
             spacing: 16
 
-            // Левая панель — выбор файлов
+            // --- ЛЕВАЯ ПАНЕЛЬ (Выбор файлов) ---
             Rectangle {
-                Layout.preferredWidth: parent.width * 0.35
+                Layout.preferredWidth: parent.width * 0.30
                 Layout.fillHeight: true
                 radius: 10
                 color: "#181818"
@@ -70,13 +69,6 @@ ApplicationWindow {
                         font.pixelSize: 18
                     }
 
-                    Text {
-                        text: qsTr("Добавьте .cpp файлы, затем запустите анализ.")
-                        color: "#aaaaaa"
-                        font.pixelSize: 12
-                        wrapMode: Text.WordWrap
-                    }
-
                     ListView {
                         id: filesView
                         Layout.fillWidth: true
@@ -84,36 +76,22 @@ ApplicationWindow {
                         clip: true
                         model: filesModel
                         spacing: 4
-
                         delegate: Rectangle {
                             width: ListView.view.width
                             height: 32
                             radius: 6
                             color: "#202020"
-
                             RowLayout {
                                 anchors.fill: parent
                                 anchors.margins: 8
-                                spacing: 8
-
                                 Text {
                                     Layout.fillWidth: true
-                                    Layout.alignment: Qt.AlignVCenter
                                     text: name
-                                    elide: Text.ElideMiddle
                                     color: "#f0f0f0"
+                                    elide: Text.ElideMiddle
                                 }
-
                                 ToolButton {
                                     text: "×"
-                                    contentItem: Text {
-                                        text: "×"
-                                        font.pixelSize: 16
-                                        color: "#888888"
-                                        horizontalAlignment: Text.AlignHCenter
-                                        verticalAlignment: Text.AlignVCenter
-                                    }
-                                    background: Rectangle { color: "transparent" }
                                     onClicked: filesModel.remove(index)
                                 }
                             }
@@ -121,93 +99,93 @@ ApplicationWindow {
                     }
 
                     RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
+                                            Layout.fillWidth: true
+                                            spacing: 8
 
-                        Button {
-                            id: addFilesButton
-                            Layout.fillWidth: true
-                            text: qsTr("Добавить файлы…")
-                            onClicked: fileDialog.open()
+                                            Button {
+                                                id: addFilesButton
+                                                Layout.fillWidth: true
+                                                text: qsTr("Добавить файлы…")
+                                                onClicked: fileDialog.open()
 
-                            background: Rectangle {
-                                implicitHeight: 36
-                                radius: 8
-                                color: addFilesButton.down ? "#2563eb" : "#1d4ed8"
-                                border.color: "#1e40af"
-                            }
+                                                background: Rectangle {
+                                                    implicitHeight: 36
+                                                    radius: 8
+                                                    color: addFilesButton.down ? "#2563eb" : "#1d4ed8"
+                                                    border.color: "#1e40af"
+                                                }
 
-                            contentItem: Text {
-                                text: addFilesButton.text
-                                color: "white"
-                                font.pixelSize: 13
-                                font.family: window.font.family
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                        }
+                                                contentItem: Text {
+                                                    text: addFilesButton.text
+                                                    color: "white"
+                                                    font.pixelSize: 13
+                                                    font.family: window.font.family
+                                                    horizontalAlignment: Text.AlignHCenter
+                                                    verticalAlignment: Text.AlignVCenter
+                                                }
+                                            }
 
-                        Button {
-                            id: clearButton
-                            text: qsTr("Очистить")
-                            onClicked: {
-                                filesModel.clear()
-                                if (backend)
-                                    backend.clear()
-                            }
+                                            Button {
+                                                id: clearButton
+                                                text: qsTr("Очистить")
+                                                onClicked: {
+                                                    filesModel.clear()
+                                                    if (backend)
+                                                        backend.clear()
+                                                }
 
-                            background: Rectangle {
-                                implicitWidth: 110
-                                implicitHeight: 36
-                                radius: 8
-                                color: "transparent"
-                                border.color: "#4b5563"
-                            }
+                                                background: Rectangle {
+                                                    implicitWidth: 110
+                                                    implicitHeight: 36
+                                                    radius: 8
+                                                    color: "transparent"
+                                                    border.color: "#4b5563"
+                                                }
 
-                            contentItem: Text {
-                                text: clearButton.text
-                                color: "#e5e7eb"
-                                font.pixelSize: 13
-                                font.family: window.font.family
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                            }
-                        }
-                    }
+                                                contentItem: Text {
+                                                    text: clearButton.text
+                                                    color: "#e5e7eb"
+                                                    font.pixelSize: 13
+                                                    font.family: window.font.family
+                                                    horizontalAlignment: Text.AlignHCenter
+                                                    verticalAlignment: Text.AlignVCenter
+                                                }
+                                            }
+                                        }
 
-                    Button {
-                        id: scanButton
-                        Layout.fillWidth: true
-                        text: qsTr("Сканировать файлы")
-                        enabled: filesModel.count > 0
-                        onClicked: {
-                            if (backend) {
-                                console.log("[QML] Scan button clicked")
-                                backend.scanFiles(currentPaths())
-                            }
-                        }
+                                        Button {
+                                            id: scanButton
+                                            Layout.fillWidth: true
+                                            text: qsTr("Сканировать файлы")
+                                            enabled: filesModel.count > 0
+                                            onClicked: {
+                                                if (backend) {
+                                                    console.log("[QML] Scan button clicked")
+                                                    backend.scanFiles(currentPaths())
+                                                }
+                                            }
 
-                        background: Rectangle {
-                            implicitHeight: 40
-                            radius: 10
-                            color: !scanButton.enabled ? "#1f2937" : (scanButton.down ? "#16a34a" : "#22c55e")
-                            border.color: "#15803d"
-                        }
+                                            background: Rectangle {
+                                                implicitHeight: 40
+                                                radius: 10
+                                                color: !scanButton.enabled ? "#1f2937" : (scanButton.down ? "#16a34a" : "#22c55e")
+                                                border.color: "#15803d"
+                                            }
 
-                        contentItem: Text {
-                            text: scanButton.text
-                            color: scanButton.enabled ? "white" : "#6b7280"
-                            font.pixelSize: 14
-                            font.bold: true
-                            font.family: window.font.family
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                    }
+                                            contentItem: Text {
+                                                text: scanButton.text
+                                                color: scanButton.enabled ? "white" : "#6b7280"
+                                                font.pixelSize: 14
+                                                font.bold: true
+                                                font.family: window.font.family
+                                                horizontalAlignment: Text.AlignHCenter
+                                                verticalAlignment: Text.AlignVCenter
+                                            }
+                                        }
                 }
             }
 
-            // Правая панель — результаты анализа
+            // --- ПРАВАЯ ПАНЕЛЬ (Результаты) ---
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -226,36 +204,31 @@ ApplicationWindow {
                         font.pixelSize: 18
                     }
 
-                    // Текст до первого запуска анализа
+                    // Сообщения о статусе
                     Text {
                         visible: !backend || (backend && !backend.hasScanRun)
-                        text: qsTr("Анализ ещё не выполнялся. Добавьте файлы слева и нажмите «Сканировать файлы».")
+                        text: qsTr("Добавьте файлы и нажмите «Сканировать».")
                         color: "#888888"
-                        font.pixelSize: 13
-                        wrapMode: Text.WordWrap
                     }
 
-                    // Текст после анализа, когда небезопасные функции не найдены
                     Text {
                         visible: backend && backend.hasScanRun && findingsList.length === 0
-                        text: qsTr("Сканирование завершено: небезопасные вызовы gets/strcpy/sprintf не найдены в выбранных файлах.")
+                        text: qsTr("Уязвимостей не обнаружено!")
                         color: "#22c55e"
-                        font.pixelSize: 13
-                        wrapMode: Text.WordWrap
                     }
 
                     ScrollView {
-                        id: findingsScrollView // Идентификатор для привязки ширины дочерних элементов
+                        id: findingsScrollView
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         clip: true
 
                         Column {
                             id: findingsColumn
-                            // ИСИПРАВЛЕНО: Ширина берется у ScrollView, а не у скрытого contentItem
                             width: findingsScrollView.availableWidth
                             spacing: 12
 
+                            // Используем Repeater для отображения каждой найденной ошибки
                             Repeater {
                                 model: findingsList
 
@@ -264,103 +237,142 @@ ApplicationWindow {
                                     radius: 10
                                     color: "#202020"
                                     border.color: "#303030"
-                                    border.width: 1
-
-                                    // Динамическая адаптация высоты под контент
                                     implicitHeight: contentLayout.implicitHeight + 24
-
                                     property var findingData: modelData
 
                                     ColumnLayout {
                                         id: contentLayout
                                         anchors.fill: parent
                                         anchors.margins: 12
-                                        spacing: 8
+                                        spacing: 10
 
-                                        Text {
-                                            text: findingData.fileName + ":" + findingData.lineNumber + "  —  " + findingData.functionName + "()"
-                                            color: "#f0f0f0"
-                                            font.pixelSize: 13
-                                            Layout.alignment: Qt.AlignHCenter
+                                        // Заголовок карточки
+                                        RowLayout {
+                                            Layout.fillWidth: true
+                                            Text {
+                                                text: findingData.fileName + ":" + findingData.lineNumber + " — " + findingData.functionName + "()"
+                                                color: "#f0f0f0"
+                                                font.bold: true
+                                                Layout.fillWidth: true
+                                            }
+
+                                            // Кнопка копирования
+                                            Button {
+                                                id: copyBtn
+                                                text: qsTr("Копировать")
+                                                visible: findingData.fixedLine && findingData.fixedLine.length > 0
+                                                onClicked: backend.copyToClipboard(findingData.fixedLine)
+
+                                                background: Rectangle {
+                                                    implicitWidth: 110
+                                                    implicitHeight: 24
+                                                    color: copyBtn.hovered ? "#374151" : "#1f2937"
+                                                    radius: 4
+                                                }
+                                                contentItem: Text {
+                                                    text: copyBtn.text
+                                                    color: "#6bd96b"
+                                                    font.pixelSize: 10
+                                                    horizontalAlignment: Text.AlignHCenter
+                                                    verticalAlignment: Text.AlignVCenter
+                                                }
+                                            }
                                         }
 
-                                        // Блок с фрагментом исходного кода
+                                        // Блок с кодом (черный фон)
                                         Rectangle {
                                             Layout.fillWidth: true
-                                            implicitHeight: codeColumn.implicitHeight + 20
-                                            color: "#121212"
-                                            radius: 8
-                                            border.color: "#333333"
-                                            border.width: 1
+                                            implicitHeight: codeLinesColumn.implicitHeight + 20
+                                            color: "#0a0a0a"
+                                            radius: 6
 
                                             Column {
-                                                id: codeColumn
+                                                id: codeLinesColumn
                                                 anchors.fill: parent
                                                 anchors.margins: 10
-                                                spacing: 3
+                                                spacing: 2
 
-                                                Repeater {
-                                                    model: findingData.beforeLines || []
-                                                    delegate: Text {
-                                                        width: parent.width
-                                                        text: modelData || ""
-                                                        color: "#cccccc"
-                                                        font.pixelSize: 12
-                                                        font.family: window.font.family
-                                                        wrapMode: Text.NoWrap
+                                                // Компонент для отрисовки ОДНОЙ строки кода с номером
+                                                Component {
+                                                    id: codeLineRow
+                                                    RowLayout {
+                                                        width: codeLinesColumn.width
+                                                        spacing: 10
+                                                        property string txt: ""
+                                                        property int num: 0
+                                                        property color clr: "#cccccc"
+
+                                                        Text {
+                                                            text: num > 0 ? num : ""
+                                                            color: "#555555"
+                                                            font.pixelSize: 12
+                                                            Layout.preferredWidth: 30
+                                                            horizontalAlignment: Text.AlignRight
+                                                        }
+                                                        Text {
+                                                            text: txt
+                                                            color: clr
+                                                            font.pixelSize: 12
+                                                            Layout.fillWidth: true
+                                                            // Сохраняем все пробелы и табы
+                                                            textFormat: Text.PlainText
+                                                        }
                                                     }
                                                 }
 
-                                                // Найденная строка — красным
-                                                Text {
-                                                    width: parent.width
-                                                    text: findingData.codeLine || ""
-                                                    color: "#ff5c5c"
-                                                    font.pixelSize: 12
-                                                    font.family: window.font.family
-                                                    wrapMode: Text.NoWrap
+                                                // 1. Контекст "ДО"
+                                                Repeater {
+                                                    model: findingData.beforeLines || []
+                                                    Loader {
+                                                        sourceComponent: codeLineRow
+                                                        onLoaded: { item.txt = modelData.text; item.num = modelData.ln }
+                                                    }
                                                 }
 
-                                                // Зеленая строка с безопасным вариантом
-                                                Text {
-                                                    width: parent.width
-                                                    visible: findingData.fixedLine && findingData.fixedLine.length > 0
-                                                    text: findingData.fixedLine || ""
-                                                    color: "#6bd96b"
-                                                    font.pixelSize: 12
-                                                    font.family: window.font.family
-                                                    wrapMode: Text.NoWrap
+                                                // 2. СТРОКА С ОШИБКОЙ
+                                                Loader {
+                                                    sourceComponent: codeLineRow
+                                                    onLoaded: {
+                                                        item.txt = findingData.codeLine
+                                                        item.num = findingData.lineNumber
+                                                        item.clr = "#ff5c5c" // Красный
+                                                    }
                                                 }
 
+                                                // 3. ПРЕДЛОЖЕННОЕ ИСПРАВЛЕНИЕ
+                                                Loader {
+                                                    sourceComponent: codeLineRow
+                                                    visible: findingData.fixedLine.length > 0
+                                                    onLoaded: {
+                                                        item.txt = findingData.fixedLine
+                                                        item.num = 0 // У фикса нет номера строки
+                                                        item.clr = "#6bd96b" // Зеленый
+                                                    }
+                                                }
+
+                                                // 4. Контекст "ПОСЛЕ"
                                                 Repeater {
                                                     model: findingData.afterLines || []
-                                                    delegate: Text {
-                                                        width: parent.width
-                                                        text: modelData || ""
-                                                        color: "#cccccc"
-                                                        font.pixelSize: 12
-                                                        font.family: window.font.family
-                                                        wrapMode: Text.NoWrap
+                                                    Loader {
+                                                        sourceComponent: codeLineRow
+                                                        onLoaded: { item.txt = modelData.text; item.num = modelData.ln }
                                                     }
                                                 }
                                             }
                                         }
 
-                                        // Предупреждение
+                                        // Описание проблемы
                                         Text {
                                             Layout.fillWidth: true
-                                            visible: findingData.warning && findingData.warning.length > 0
-                                            text: findingData.warning || ""
+                                            text: findingData.warning
                                             color: "#ff8a8a"
                                             font.pixelSize: 12
                                             wrapMode: Text.WordWrap
                                         }
 
-                                        // Рекомендация по замене
                                         Text {
                                             Layout.fillWidth: true
-                                            visible: findingData.recommendation && findingData.recommendation.length > 0
-                                            text: findingData.recommendation || ""
+                                            text: findingData.recommendation
                                             color: "#8ee78e"
                                             font.pixelSize: 12
                                             wrapMode: Text.WordWrap

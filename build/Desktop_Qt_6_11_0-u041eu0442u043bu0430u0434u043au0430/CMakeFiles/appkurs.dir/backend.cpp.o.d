@@ -392,4 +392,26 @@ CMakeFiles/appkurs.dir/backend.cpp.o: \
  /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qregularexpression.h \
  /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/QDebug \
  /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/QUrl \
- /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qurl.h
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qurl.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/QGuiApplication \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qguiapplication.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qtguiglobal.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qtgui-config.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qtguiexports.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qcoreapplication.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qcoreevent.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qbasictimer.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qeventloop.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qdeadlinetimer.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qnativeinterface.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qcoreapplication_platform.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qwindowdefs.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qinputmethod.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qpoint.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qcheckedint_impl.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qsize.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtCore/qmargins.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qguiapplication_platform.h \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/QClipboard \
+ /home/magnus/Qt/6.11.0/gcc_64/include/QtGui/qclipboard.h
