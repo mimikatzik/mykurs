@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/kurs/">
+    <file alias="Main.qml">C:/Users/user/Documents/kurs/Main.qml</file>
+  </qresource>
+</RCC>
+

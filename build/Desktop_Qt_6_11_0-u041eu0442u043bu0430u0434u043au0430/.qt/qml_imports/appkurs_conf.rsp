@@ -1,0 +1,14 @@
+-rootPath
+/home/magnus/projects/kurs
+-cmake-output
+-output-file
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/qml_imports/appkurs_conf.cmake
+-importPath
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430
+-importPath
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/kurs
+-importPath
+/home/magnus/Qt/6.11.0/gcc_64/qml
+-qrcFiles
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qmake_kurs.qrc
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/appkurs_raw_qml_0.qrc

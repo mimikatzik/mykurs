@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_appkurs_FILE /home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/appkurs)
+set(__QT_DEPLOY_TARGET_appkurs_TYPE EXECUTABLE)

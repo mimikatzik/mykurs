@@ -1,0 +1,16 @@
+--bare
+-I
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430
+-I
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/kurs
+-I
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430
+-I
+/home/magnus/Qt/6.11.0/gcc_64/qml
+--resource
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qmake_kurs.qrc
+--resource
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/appkurs_raw_qml_0.qrc
+/home/magnus/projects/kurs/Main.qml
+--json
+/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/appkurs_qmllint.json

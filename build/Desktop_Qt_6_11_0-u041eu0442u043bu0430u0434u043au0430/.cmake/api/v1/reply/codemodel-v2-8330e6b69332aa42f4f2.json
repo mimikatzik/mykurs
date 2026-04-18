@@ -1,0 +1,223 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-80306e6f506b1c7a7daa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "kurs",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "all_aotstats::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_aotstats-Debug-67242b8d41ce875fd133.json",
+					"name" : "all_aotstats",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint-Debug-f1921eaa43533c62e3ab.json",
+					"name" : "all_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_json-Debug-4ec5eb9463e8b6283b03.json",
+					"name" : "all_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_module-Debug-35d310e9d4c521f9e4b3.json",
+					"name" : "all_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmltyperegistrations::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmltyperegistrations-Debug-ef824a1bc0daf2437360.json",
+					"name" : "all_qmltyperegistrations",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs-Debug-716d85399c5b5aef2660.json",
+					"name" : "appkurs",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_autogen-Debug-2a4de132aacf9d7e4f64.json",
+					"name" : "appkurs_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_autogen_timestamp_deps-Debug-289b7187df13c6f15e01.json",
+					"name" : "appkurs_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_copy_qml::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_copy_qml-Debug-40931914b3ebdb510574.json",
+					"name" : "appkurs_copy_qml",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_copy_res::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_copy_res-Debug-8a93d64fdee872bb9ee6.json",
+					"name" : "appkurs_copy_res",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_qmlimportscan-Debug-06c67f9f8a80e2adfa47.json",
+					"name" : "appkurs_qmlimportscan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_qmllint-Debug-fe959752e0b07f6ae849.json",
+					"name" : "appkurs_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_qmllint_json-Debug-3695c7ea727565867b59.json",
+					"name" : "appkurs_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_qmllint_module-Debug-f6f0b13d81b09ab7f469.json",
+					"name" : "appkurs_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appkurs_qmltyperegistration::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appkurs_qmltyperegistration-Debug-158d54650609c0a09271.json",
+					"name" : "appkurs_qmltyperegistration",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "clean_qml_context_properties::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-clean_qml_context_properties-Debug-df75501a6df689c70966.json",
+					"name" : "clean_qml_context_properties",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dump_qml_context_properties::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dump_qml_context_properties-Debug-45d6e70d7b2ccd4d2501.json",
+					"name" : "dump_qml_context_properties",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "generate_qmlls_build_ini_file::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-generate_qmlls_build_ini_file-Debug-ed6626f17cf8d3a327a9.json",
+					"name" : "generate_qmlls_build_ini_file",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "module_appkurs_aotstats_target::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-module_appkurs_aotstats_target-Debug-87b41569c18c32d0cdf3.json",
+					"name" : "module_appkurs_aotstats_target",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/magnus/projects/kurs/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430",
+		"source" : "/home/magnus/projects/kurs"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

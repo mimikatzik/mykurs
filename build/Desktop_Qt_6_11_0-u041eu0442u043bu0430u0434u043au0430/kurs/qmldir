@@ -1,0 +1,6 @@
+module kurs
+typeinfo appkurs.qmltypes
+prefer :/qt/qml/kurs/
+Main 254.0 Main.qml
+depends QtQuick
+

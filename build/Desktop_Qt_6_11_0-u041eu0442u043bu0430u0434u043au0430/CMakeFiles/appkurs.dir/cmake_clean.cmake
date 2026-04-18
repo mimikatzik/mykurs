@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  ".qt/rcc/qrc_appkurs_raw_qml_0.cpp"
+  ".qt/rcc/qrc_qmake_kurs.cpp"
+  ".rcc/qmlcache/appkurs_Main_qml.cpp"
+  ".rcc/qmlcache/appkurs_Main_qml.cpp.aotstats"
+  ".rcc/qmlcache/appkurs_qmlcache_loader.cpp"
+  "CMakeFiles/appkurs_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/appkurs_autogen.dir/ParseCache.txt"
+  "appkurs_autogen"
+  "CMakeFiles/appkurs.dir/Main.cpp.o"
+  "CMakeFiles/appkurs.dir/Main.cpp.o.d"
+  "CMakeFiles/appkurs.dir/appkurs_autogen/mocs_compilation.cpp.o"
+  "CMakeFiles/appkurs.dir/appkurs_autogen/mocs_compilation.cpp.o.d"
+  "CMakeFiles/appkurs.dir/appkurs_qmltyperegistrations.cpp.o"
+  "CMakeFiles/appkurs.dir/appkurs_qmltyperegistrations.cpp.o.d"
+  "CMakeFiles/appkurs.dir/backend.cpp.o"
+  "CMakeFiles/appkurs.dir/backend.cpp.o.d"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qrc_appkurs_raw_qml_0.cpp.o"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qrc_appkurs_raw_qml_0.cpp.o.d"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qrc_qmake_kurs.cpp.o"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.qt/rcc/qrc_qmake_kurs.cpp.o.d"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.rcc/qmlcache/appkurs_Main_qml.cpp.o"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.rcc/qmlcache/appkurs_Main_qml.cpp.o.d"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.rcc/qmlcache/appkurs_qmlcache_loader.cpp.o"
+  "CMakeFiles/appkurs.dir/build/Desktop_Qt_6_11_0-u041eu0442u043bu0430u0434u043au0430/.rcc/qmlcache/appkurs_qmlcache_loader.cpp.o.d"
+  "appkurs"
+  "appkurs.pdb"
+  "appkurs_autogen/mocs_compilation.cpp"
+  "appkurs_autogen/timestamp"
+  "appkurs_qmltyperegistrations.cpp"
+  "kurs/appkurs.qmltypes"
+  "meta_types/appkurs_json_file_list.txt"
+  "meta_types/appkurs_json_file_list.txt.timestamp"
+  "meta_types/qt6appkurs_metatypes.json"
+  "meta_types/qt6appkurs_metatypes.json.gen"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/appkurs.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

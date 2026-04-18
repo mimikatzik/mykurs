@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/kurs">
+    <file alias="qmldir">C:/Users/user/Documents/kurs/build/Desktop_Qt_6_10_2_MinGW_64_bit-Debug/kurs/qmldir</file>
+  </qresource>
+</RCC>
+
