@@ -257,22 +257,39 @@ ApplicationWindow {
                                             }
 
                                             // Кнопка копирования
+                                            // --- Кнопка копирования внутри карточки результата ---
                                             Button {
                                                 id: copyBtn
-                                                text: qsTr("Копировать")
+                                                property string originalText: qsTr("Копировать") // Храним исходный текст
+                                                text: originalText
                                                 visible: findingData.fixedLine && findingData.fixedLine.length > 0
-                                                onClicked: backend.copyToClipboard(findingData.fixedLine)
+
+                                                onClicked: {
+                                                    backend.copyToClipboard(findingData.fixedLine)
+                                                    copyBtn.text = qsTr("Скопировано!") // Меняем текст
+                                                    resetTimer.restart() // Запускаем таймер сброса
+                                                }
+
+                                                // Таймер, который вернет текст кнопки назад через 3 секунды
+                                                Timer {
+                                                    id: resetTimer
+                                                    interval: 3000
+                                                    onTriggered: copyBtn.text = copyBtn.originalText
+                                                }
 
                                                 background: Rectangle {
                                                     implicitWidth: 110
                                                     implicitHeight: 24
-                                                    color: copyBtn.hovered ? "#374151" : "#1f2937"
+                                                    color: copyBtn.down ? "#15803d" : (copyBtn.hovered ? "#374151" : "#1f2937")
                                                     radius: 4
+                                                    border.color: copyBtn.text === qsTr("Скопировано!") ? "#22c55e" : "transparent"
                                                 }
+
                                                 contentItem: Text {
                                                     text: copyBtn.text
-                                                    color: "#6bd96b"
+                                                    color: copyBtn.text === qsTr("Скопировано!") ? "#22c55e" : "#6bd96b"
                                                     font.pixelSize: 10
+                                                    font.bold: copyBtn.text === qsTr("Скопировано!")
                                                     horizontalAlignment: Text.AlignHCenter
                                                     verticalAlignment: Text.AlignVCenter
                                                 }

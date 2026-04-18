@@ -126,24 +126,51 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
                               QString &fixedLine, QString &warningText,
                               QString &recommendationText) const
 {
-    // Извлекаем отступ из оригинальной строки
     QString indent;
     for (const QChar &c : line) {
         if (c.isSpace()) indent += c;
         else break;
     }
 
+    // Регулярка для извлечения того, что внутри скобок (аргументы)
+    QRegularExpression re(funcName + "\\s*\\((.*)\\)");
+    QRegularExpressionMatch match = re.match(line);
+    QString args = match.hasMatch() ? match.captured(1).trimmed() : "";
+
     if (funcName == "gets") {
         warningText = tr("Функция gets небезопасна: возможно переполнение буфера.");
         recommendationText = tr("Используйте std::string и std::getline.");
-        fixedLine = indent + "std::string line; std::getline(std::cin, line);";
+        // Подставляем имя переменной, если нашли
+        QString varName = args.isEmpty() ? "str" : args;
+        fixedLine = indent + QString("std::string %1_str; std::getline(std::cin, %1_str);").arg(varName);
+
     } else if (funcName == "strcpy") {
         warningText = tr("Функция strcpy небезопасна: нет контроля границ.");
         recommendationText = tr("Используйте std::string или оператор присваивания.");
-        fixedLine = indent + "std::string dest = src;";
+        // Разделяем аргументы по запятой
+        QStringList parts = args.split(',');
+        if (parts.size() >= 2) {
+            fixedLine = indent + QString("%1 = %2;").arg(parts[0].trimmed(), parts[1].trimmed());
+        } else {
+            fixedLine = indent + "dest = src;";
+        }
+
     } else if (funcName == "sprintf") {
         warningText = tr("Функция sprintf небезопасна: риск переполнения буфера.");
-        recommendationText = tr("Используйте fmt::format или std::format (C++20).");
-        fixedLine = indent + "std::string result = fmt::format(\"{} {}\", arg1, arg2);";
+        recommendationText = tr("Используйте std::format (C++20) или fmt::format.");
+
+        QStringList parts = args.split(',');
+        if (parts.size() >= 2) {
+            QString buffer = parts[0].trimmed();
+            QString formatStr = parts[1].trimmed();
+            // Собираем остальные аргументы
+            QString remainingArgs;
+            for(int i = 2; i < parts.size(); ++i) {
+                remainingArgs += (i == 2 ? "" : ", ") + parts[i].trimmed();
+            }
+            fixedLine = indent + QString("std::string %1_s = std::format(%2, %3);").arg(buffer, formatStr, remainingArgs);
+        } else {
+            fixedLine = indent + "std::string s = std::format(\"...\", args);";
+        }
     }
 }
