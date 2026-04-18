@@ -132,7 +132,7 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
         else break;
     }
 
-    // Регулярка для извлечения того, что внутри скобок (аргументы)
+    // Регулярка выцепляет всё, что между первой ( и последней )
     QRegularExpression re(funcName + "\\s*\\((.*)\\)");
     QRegularExpressionMatch match = re.match(line);
     QString args = match.hasMatch() ? match.captured(1).trimmed() : "";
@@ -140,37 +140,37 @@ void Backend::buildSuggestion(const QString &line, const QString &funcName,
     if (funcName == "gets") {
         warningText = tr("Функция gets небезопасна: возможно переполнение буфера.");
         recommendationText = tr("Используйте std::string и std::getline.");
-        // Подставляем имя переменной, если нашли
+
+        // Убираем _str, оставляем чистое имя
         QString varName = args.isEmpty() ? "str" : args;
-        fixedLine = indent + QString("std::string %1_str; std::getline(std::cin, %1_str);").arg(varName);
+        fixedLine = indent + QString("std::string %1; std::getline(std::cin, %1);").arg(varName);
 
     } else if (funcName == "strcpy") {
         warningText = tr("Функция strcpy небезопасна: нет контроля границ.");
         recommendationText = tr("Используйте std::string или оператор присваивания.");
-        // Разделяем аргументы по запятой
-        QStringList parts = args.split(',');
-        if (parts.size() >= 2) {
-            fixedLine = indent + QString("%1 = %2;").arg(parts[0].trimmed(), parts[1].trimmed());
+
+        // Используем поиск ПЕРВОЙ запятой, чтобы не ломать строки с запятыми внутри
+        int firstComma = args.indexOf(',');
+        if (firstComma != -1) {
+            QString dest = args.left(firstComma).trimmed();
+            QString src = args.mid(firstComma + 1).trimmed();
+            fixedLine = indent + QString("%1 = %2;").arg(dest, src);
         } else {
             fixedLine = indent + "dest = src;";
         }
 
     } else if (funcName == "sprintf") {
         warningText = tr("Функция sprintf небезопасна: риск переполнения буфера.");
-        recommendationText = tr("Используйте std::format (C++20) или fmt::format.");
+        recommendationText = tr("Используйте std::format (C++20).");
 
-        QStringList parts = args.split(',');
-        if (parts.size() >= 2) {
-            QString buffer = parts[0].trimmed();
-            QString formatStr = parts[1].trimmed();
-            // Собираем остальные аргументы
-            QString remainingArgs;
-            for(int i = 2; i < parts.size(); ++i) {
-                remainingArgs += (i == 2 ? "" : ", ") + parts[i].trimmed();
-            }
-            fixedLine = indent + QString("std::string %1_s = std::format(%2, %3);").arg(buffer, formatStr, remainingArgs);
+        int firstComma = args.indexOf(',');
+        if (firstComma != -1) {
+            QString buffer = args.left(firstComma).trimmed();
+            QString rest = args.mid(firstComma + 1).trimmed();
+            // rest теперь содержит и строку формата, и все аргументы целиком
+            fixedLine = indent + QString("std::string %1_s = std::format(%2);").arg(buffer, rest);
         } else {
-            fixedLine = indent + "std::string s = std::format(\"...\", args);";
+            fixedLine = indent + "std::string s = std::format(...);";
         }
     }
 }
