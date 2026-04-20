@@ -15,7 +15,7 @@ void test_g() {
     char name[64];
     printf("Введите имя пользователя: ");
     // Анализатор должен найти это:
-    gets(name); 
+    std::getline(std::cin, name);
     printf("Привет, %s\n", name);
 }
 
@@ -24,11 +24,11 @@ void test_st() {
     char dest[20];
     
     // Анализатор должен предложить: dest = source;
-    strcpy(dest, source);
+    dest = source;
     
     char login[10];
     // Проверка на запятые (сложный случай для парсера)
-    strcpy(login, "admin,root,user"); 
+    login = "admin,root,user";
 }
 
 void test_sp() {
@@ -37,7 +37,7 @@ void test_sp() {
     int id = 12345;
 
     // Анализатор должен предложить: std::string buffer_s = std::format(...);
-    sprintf(buffer, "User: %s (ID: %d)", user, id);
+    buffer = fmt::format("User: %s (ID: %d)", user, id);
 }
 
 int main() {

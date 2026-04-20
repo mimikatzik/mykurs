@@ -7,7 +7,7 @@
  * Для проверки работы анализатора и автоисправления
  */
 
-void test_g() {
+void test_gets() {
     char name[64];
     printf("Введите имя пользователя: ");
     // ОПАСНО: gets никогда не проверяет размер буфера
@@ -52,7 +52,7 @@ void test_mixed_junk() {
 int main() {
     printf("--- Запуск теста уязвимостей ---\n");
     
-    test_g();
+    test_gets();
     test_st();
     test_sp();
     test_mixed_junk();

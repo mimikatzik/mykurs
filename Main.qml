@@ -1,26 +1,28 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Dialogs
+import QtQuick // базовые графические элементы
+import QtQuick.Controls // кнопки
+import QtQuick.Layouts // расстановка элементов в сетке или строках
+import QtQuick.Dialogs // вызов системного окна (выбора файлов)
 
 ApplicationWindow {
-    id: window
-    width: 1200
-    height: 720
-    visible: true
-    title: qsTr("Анализатор небезопасных функций C/C++")
-    color: "#101010"
+    id: window // имя
+    width: 1200 // ширина окна
+    height: 720 // высота окна
+    visible: true // видимость
+    title: qsTr("Анализатор небезопасных функций C/C++") // заголовок
+    color: "#101010" // цвет
 
     property alias filesModel: filesModel
-    font.family: "Consolas"
+    font.family: "Consolas" // шрифт
 
+    // список путей к выбранным файлам
     ListModel {
         id: filesModel
     }
 
-    // Список результатов из C++
+    // список результатов из бэкенда
     property var findingsList: backend ? backend.findings : []
 
+    // перебор всех элементов в filesModel и упаковка их пути в JS-массив
     function currentPaths() {
         var paths = []
         for (var i = 0; i < filesModel.count; ++i)
@@ -28,12 +30,13 @@ ApplicationWindow {
         return paths
     }
 
+    // системное окно для выбора файлов
     FileDialog {
         id: fileDialog
-        title: qsTr("Выберите .cpp файлы для анализа")
-        nameFilters: [qsTr("C++ файлы (*.cpp)")]
+        title: qsTr("Выберите .cpp файлы для анализа") // заголовок
+        nameFilters: [qsTr("C++ файлы (*.cpp)")] // фильтр только C++ файлов
         fileMode: FileDialog.OpenFiles
-        onAccepted: {
+        onAccepted: { // когда юзер подтверждает сигнал
             for (var i = 0; i < selectedFiles.length; ++i) {
                 var rawUrl = selectedFiles[i].toString()
                 filesModel.append({ path: rawUrl, name: rawUrl.split("/").pop() })
@@ -41,6 +44,7 @@ ApplicationWindow {
         }
     }
 
+    // визуальный интерфейс
     Rectangle {
         anchors.fill: parent
         color: "#101010"
@@ -50,7 +54,7 @@ ApplicationWindow {
             anchors.margins: 16
             spacing: 16
 
-            // --- ЛЕВАЯ ПАНЕЛЬ (Выбор файлов) ---
+            // левая панель (выбор файлов)
             Rectangle {
                 Layout.preferredWidth: parent.width * 0.30
                 Layout.fillHeight: true
@@ -76,10 +80,10 @@ ApplicationWindow {
                         clip: true
                         model: filesModel
                         spacing: 4
-                        // --- Внутри ListView (Файлы для анализа) --- [cite: 8, 9]
+                        // файлы для анализа
                         delegate: Rectangle {
                             width: ListView.view.width
-                            height: 40 // Чуть увеличим для удобства [cite: 10]
+                            height: 40
                             radius: 6
                             color: "#202020"
 
@@ -92,7 +96,7 @@ ApplicationWindow {
 
                                 Text {
                                     Layout.fillWidth: true
-                                    Layout.alignment: Qt.AlignVCenter // Явное центрирование текста [cite: 13]
+                                    Layout.alignment: Qt.AlignVCenter
                                     text: name
                                     color: "#f0f0f0"
                                     elide: Text.ElideMiddle
@@ -101,7 +105,7 @@ ApplicationWindow {
 
                                 ToolButton {
                                     text: "×"
-                                    Layout.alignment: Qt.AlignVCenter // Центрирование кнопки [cite: 15]
+                                    Layout.alignment: Qt.AlignVCenter
                                     onClicked: filesModel.remove(index)
                                 }
                             }
@@ -195,7 +199,7 @@ ApplicationWindow {
                 }
             }
 
-            // --- ПРАВАЯ ПАНЕЛЬ (Результаты) ---
+            // --- правая панель (результаты) ---
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -208,7 +212,7 @@ ApplicationWindow {
                     anchors.margins: 16
                     spacing: 12
 
-                    // Верхняя панель: Заголовок + Кнопка "Исправить всё"
+                    // верхняя панель: заголовок + кнопка "исправить все"
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 10
@@ -217,13 +221,12 @@ ApplicationWindow {
                             text: qsTr("Результаты анализа")
                             color: "white"
                             font.pixelSize: 18
-                            Layout.fillWidth: true // Занимает всё свободное место, толкая кнопку вправо
+                            Layout.fillWidth: true
                         }
 
                         Button {
                             id: applyAllBtn
                             text: qsTr("Исправить всё")
-                            // Кнопка видна только если есть результаты
                             visible: findingsList.length > 0
 
                             onClicked: backend.applyAllFixes()
@@ -246,7 +249,7 @@ ApplicationWindow {
                         }
                     }
 
-                    // Сообщения о статусе
+                    // сообщения о статусе
                     Text {
                         visible: !backend || (backend && !backend.hasScanRun)
                         text: qsTr("Добавьте файлы и нажмите «Сканировать».")
@@ -270,7 +273,7 @@ ApplicationWindow {
                             width: findingsScrollView.availableWidth
                             spacing: 12
 
-                            // Используем Repeater для отображения каждой найденной ошибки
+                            // отображение каждой найденной ошибки
                             Repeater {
                                 model: findingsList
 
@@ -288,7 +291,7 @@ ApplicationWindow {
                                         anchors.margins: 12
                                         spacing: 10
 
-                                        // Заголовок карточки
+                                        // заголовок карточки
                                         RowLayout {
                                             Layout.fillWidth: true
                                             Text {
@@ -298,8 +301,7 @@ ApplicationWindow {
                                                 Layout.fillWidth: true
                                             }
 
-                                            // Кнопка копирования
-                                            // --- Кнопка копирования внутри карточки результата ---
+                                            // кнопка копирования
                                             Button {
                                                 id: copyBtn
                                                 property string originalText: qsTr("Копировать") // Храним исходный текст
@@ -312,7 +314,7 @@ ApplicationWindow {
                                                     resetTimer.restart() // Запускаем таймер сброса
                                                 }
 
-                                                // Таймер, который вернет текст кнопки назад через 3 секунды
+                                                // таймер, который вернет текст кнопки назад через 3 секунды
                                                 Timer {
                                                     id: resetTimer
                                                     interval: 3000
@@ -338,7 +340,7 @@ ApplicationWindow {
                                             }
                                         }
 
-                                        // Блок с кодом (черный фон)
+                                        // блок с кодом
                                         Rectangle {
                                             Layout.fillWidth: true
                                             implicitHeight: codeLinesColumn.implicitHeight + 20
@@ -351,7 +353,7 @@ ApplicationWindow {
                                                 anchors.margins: 10
                                                 spacing: 2
 
-                                                // Компонент для отрисовки ОДНОЙ строки кода с номером
+                                                // компонент для отрисовки одной строки кода с номером
                                                 Component {
                                                     id: codeLineRow
                                                     RowLayout {
@@ -373,13 +375,12 @@ ApplicationWindow {
                                                             color: clr
                                                             font.pixelSize: 12
                                                             Layout.fillWidth: true
-                                                            // Сохраняем все пробелы и табы
                                                             textFormat: Text.PlainText
                                                         }
                                                     }
                                                 }
 
-                                                // 1. Контекст "ДО"
+                                                // контекст до
                                                 Repeater {
                                                     model: findingData.beforeLines || []
                                                     Loader {
@@ -388,7 +389,7 @@ ApplicationWindow {
                                                     }
                                                 }
 
-                                                // 2. СТРОКА С ОШИБКОЙ
+                                                // строка с ошибкой
                                                 Loader {
                                                     sourceComponent: codeLineRow
                                                     onLoaded: {
@@ -398,7 +399,7 @@ ApplicationWindow {
                                                     }
                                                 }
 
-                                                // 3. ПРЕДЛОЖЕННОЕ ИСПРАВЛЕНИЕ
+                                                // предложенное исправление
                                                 Loader {
                                                     sourceComponent: codeLineRow
                                                     visible: findingData.fixedLine.length > 0
@@ -409,7 +410,7 @@ ApplicationWindow {
                                                     }
                                                 }
 
-                                                // 4. Контекст "ПОСЛЕ"
+                                                // контекст после
                                                 Repeater {
                                                     model: findingData.afterLines || []
                                                     Loader {
@@ -420,7 +421,7 @@ ApplicationWindow {
                                             }
                                         }
 
-                                        // Описание проблемы
+                                        // описание проблемы
                                         Text {
                                             Layout.fillWidth: true
                                             text: findingData.warning
